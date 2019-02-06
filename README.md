@@ -11,7 +11,7 @@ which when the pollution rate exceeds a certain threshold in these then we act o
 # Prerequisites:
 * Python >3.7 : https://www.python.org/downloads/
 * External Python librairies : shapely, parse, jsonpickle : ``` > pip install [LIBRARY_NAME] ```
-* SUMO 1.1.0 : http://sumo.dlr.de/wiki/Downloads
+* SUMO 1.0.0 : http://sumo.dlr.de/wiki/Downloads
 
 # How to run 
 
