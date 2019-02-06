@@ -61,12 +61,14 @@ class RunProcess(multiprocessing.Process):
         """
         now = datetime.datetime.now()
         current_date = now.strftime("%Y_%m_%d_%H_%M_%S")
-
-        if not os.path.exists('files/logs'):
-            os.makedirs('logs')
+        
+        logdir = os.path.join(os.path.dirname(__file__), f'{self.data.dir}') 
+        
+        if not os.path.exists(logdir):
+            os.makedirs(f'logs')
 
         conf_name = self.config.config_filename.replace('.json', '')
-        log_filename = f'files/logs/{self.data.dump_name}_{conf_name}_{current_date}.log'
+        log_filename = f'{self.data.dir}/logs/{current_date}.log'
 
         self.logger = logging.getLogger(f'{self.data.dir}_{conf_name}')
         self.logger.setLevel(logging.INFO)
@@ -188,7 +190,7 @@ def create_dump(dump_name, simulation_dir, areas_number):
     
     
     traci.start(sumo_cmd)
-    if not os.path.isfile(f'files/dump/{dump_name}.json'):
+    if not os.path.isfile(f'{simulation_dir}/dump/{dump_name}.json'):
         start = time.perf_counter()
         data = Data(dump_name, traci.simulation.getNetBoundary(), areas_number, simulation_dir)
         data.init_grid()

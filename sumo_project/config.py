@@ -85,7 +85,8 @@ class Config:
         :param simulation_dir: The path to the simulation directory
         :return:
         """
-        simdir = f'files/simulations/{simulation_dir}/'
+        simdir = os.path.join(os.path.dirname(__file__),f'{simulation_dir}')
+        
         for f in os.listdir(simdir):
             if f.endswith('.sumocfg'):
                 self._SUMOCFG = os.path.join(simdir, f)

@@ -112,7 +112,7 @@ class Data:
         :param dump_name: The name of your data dump
         :return:
         """
-        dump_dir = 'files/dump'
+        dump_dir = f'{self.dir}/dump'
         if not os.path.exists(dump_dir):
             os.mkdir(dump_dir)
         
