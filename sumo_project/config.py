@@ -85,7 +85,10 @@ class Config:
         :param simulation_dir: The path to the simulation directory
         :return:
         """
-        self._SUMOCFG = f'files/simulations/{simulation_dir}/osm.sumocfg'
+        simdir = f'files/simulations/{simulation_dir}/'
+        for f in os.listdir(simdir):
+            if f.endswith('.sumocfg'):
+                self._SUMOCFG = os.path.join(simdir, f)
         sumo_binary = os.path.join(os.environ['SUMO_HOME'], 'bin', self._SUMOCMD)
         self.sumo_cmd = [sumo_binary, "-c", self._SUMOCFG]
 
