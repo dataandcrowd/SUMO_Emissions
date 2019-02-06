@@ -41,7 +41,7 @@ class RunProcess(multiprocessing.Process):
     Run process inheriting from multiprocessing.Process
     """
     
-    def __init__(self, data : Data, config : Config, save_logs, csv_export):
+    def __init__(self, data: Data, config: Config, save_logs: bool, csv_export: bool):
         """
         RunProcess constructor
         :param data: The data instance
@@ -62,13 +62,13 @@ class RunProcess(multiprocessing.Process):
         now = datetime.datetime.now()
         current_date = now.strftime("%Y_%m_%d_%H_%M_%S")
         
-        logdir = os.path.join(os.path.dirname(__file__), f'{self.data.dir}') 
-        
+        logdir = f'{self.data.dir}/logs/'
+        logging.info(logdir)
         if not os.path.exists(logdir):
-            os.makedirs(f'logs')
+            os.mkdir(logdir)
 
         conf_name = self.config.config_filename.replace('.json', '')
-        log_filename = f'{self.data.dir}/logs/{current_date}.log'
+        log_filename = f'{logdir}/{current_date}.log'
 
         self.logger = logging.getLogger(f'{self.data.dir}_{conf_name}')
         self.logger.setLevel(logging.INFO)
@@ -87,14 +87,15 @@ class RunProcess(multiprocessing.Process):
         """
         Export all Emission objects as a CSV file into the csv directory
         """
-        csv_dir = 'files/csv'
+        csv_dir = f'{self.data.dir}/csv'
         if not os.path.exists(csv_dir):
             os.mkdir(csv_dir)
     
         now = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         conf_name = self.config.config_filename.replace('.json', '')
 
-        with open(f'files/csv/{self.data.dump_name}_{conf_name}_{now}.csv', 'w') as f:
+        csvfile = os.path.join(csv_dir, f'{self.data.dump_name}_{conf_name}_{now}.csv')
+        with open(csvfile, 'w') as f:
             writer = csv.writer(f)
             # Write CSV headers
             writer.writerow(itertools.chain(('Step',), (a.name for a in self.data.grid)))
@@ -158,7 +159,6 @@ class RunProcess(multiprocessing.Process):
                                                                               total_emissions.__getattribute__(pollutant))
                         self.logger.info(f'-> {pollutant.upper()} reduction = {reduc_percentage} %')
                 
-                
             simulation_time = round(time.perf_counter() - start, 2)
             self.logger.info(f'End of the simulation ({simulation_time}s)')
             
@@ -201,7 +201,7 @@ def create_dump(dump_name, simulation_dir, areas_number):
         print(f'Data loaded ({loading_time}s)')
         print(f'Dump {dump_name} created')
     else:
-        print(f'Dump with name {dump_name} already exist') 
+        print(f'Dump with name {dump_name} already exists')
         
     traci.close(False)  
     
@@ -281,11 +281,9 @@ def main(args):
                     for config in bundle_files:
                         files.append(os.path.join(path, config))
 
-                    
-                for conf in files: # Initialize all process   
-    
+                for conf in files: # Initialize all process
                     config = Config(conf,data)  
-                    p = RunProcess(data, config,args.save,args.csv)
+                    p = RunProcess(data, config, args.save, args.csv)
                     process.append(p)                    
                     p.start()
                         
