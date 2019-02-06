@@ -9,9 +9,8 @@ This module defines all possible actions on the simulation
 """
 
 import traci
-from typing import Iterable
 
-from model import Area, Vehicle
+from model import Area
 
 
 def compute_edge_weight(edge_id):
@@ -103,7 +102,7 @@ def lock_area(area):
     Prohibits access to the area to a particular vehicle class
     NOT FIXED : Some vehicles continue to go into the area
     if they can not turn around and then will stay blocked there
-    as long as it will not be reversed
+    as long as "lock_area" will not be reversed
     :param area: The Area object
     :return:
     """
@@ -136,4 +135,4 @@ def reverse_actions(area):
     if area.locked:
         area.locked = False
         for lane in area._lanes:
-            traci.lane.setAllowed(lane.lane_id, '')  # empty means all classes are allowed
+            traci.lane.setAllowed(lane.lane_id, [])  # empty means all classes are allowed

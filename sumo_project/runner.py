@@ -8,10 +8,6 @@ Created on 19 janv. 2019
 This module defines the entry point of the application
 """
 
-"""
-Init the Traci API
-"""
-
 import argparse
 import csv
 import datetime
@@ -31,6 +27,9 @@ import emissions
 from model import Emission
 
 
+"""
+Init the Traci API
+"""
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
@@ -177,8 +176,16 @@ def create_dump(dump_name, simulation_dir, areas_number):
     :return:
     """
     
+    #sumo_binary = os.path.join(os.environ['SUMO_HOME'], 'bin', 'sumo')
+    #sumo_cmd = [sumo_binary, "-c", f'files/simulations/{simulation_dir}/osm.sumocfg']
+    
+    for f in os.listdir(simulation_dir):
+        if f.endswith('.sumocfg'):
+            _SUMOCFG = os.path.join(simulation_dir, f)
+            
     sumo_binary = os.path.join(os.environ['SUMO_HOME'], 'bin', 'sumo')
-    sumo_cmd = [sumo_binary, "-c", f'files/simulations/{simulation_dir}/osm.sumocfg']
+    sumo_cmd = [sumo_binary, "-c", _SUMOCFG]
+    
     
     traci.start(sumo_cmd)
     if not os.path.isfile(f'files/dump/{dump_name}.json'):
@@ -254,7 +261,7 @@ def main(args):
                 create_dump(args.new_dump, args.simulation_dir, args.areas)
         
         if args.run is not None:
-            dump_path = f'files/dump/{args.run}.json'
+            dump_path = f'{args.run}'
             if os.path.isfile(dump_path):
                 with open(dump_path, 'r') as f:
                     data = jsonpickle.decode(f.read())
@@ -264,14 +271,14 @@ def main(args):
                 
                 if args.c is not None: 
                     for config in args.c:
-                        files.append(f'files/configs/{config}') 
+                        files.append(f'{config}') 
                 
                 if args.c_dir is not None: 
-                    path = f'files/configs/{args.c_dir}/'
+                    path = f'{args.c_dir}'
                     bundle_files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))] 
                     for config in bundle_files:
-                        conf_formatted = config.replace('.json','')
-                        files.append(f'files/configs/{args.c_dir}/{conf_formatted}')
+                        files.append(os.path.join(path, config))
+
                     
                 for conf in files: # Initialize all process   
     
