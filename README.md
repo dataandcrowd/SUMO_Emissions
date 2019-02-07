@@ -16,7 +16,7 @@ which when the pollution rate exceeds a certain threshold in these then we act o
 # How to run 
 
 This application can be launched from an IDE, or from a shell (linux, Windows, MacOS). 
-You will need a config.json configuration file (see [default_config.json](https://github.com/Ahp06/SUMO_Emissions/blob/master/sumo_project/configs/default_config.json) for a template) and a simulation file.
+You will need a config.json configuration file (see [default_config.json](https://github.com/Ahp06/SUMO_Emissions/wiki/Configuration-file) for a template) and a simulation file.
 You can use your own scenario file (osm.sumocfg file), see : [SUMO Tutorials](http://sumo.dlr.de/wiki/Tutorials). 
 
 **With a Shell:**
@@ -25,19 +25,19 @@ You can use your own scenario file (osm.sumocfg file), see : [SUMO Tutorials](ht
 
 Create a data dump from simulation directory : 
 
-![](https://github.com/Ahp06/SUMO_Emissions/blob/master/sumo_project/files/imgs/runner_new_dump.PNG)
+```py ./runner.py -new_dump dump -areas 10 -simulation_dir [PATH_TO_SIMUL_DIR]```
 
-This command will create new dump called "dump" from the simulation directory "mysimulationdir" with a 10x10 grid. 
+This command will create new dump called "dump" from the simulation directory chosen with a 10x10 grid. 
 
 Run simulations in parallel with multiple configuration files : 
 
-![](https://github.com/Ahp06/SUMO_Emissions/blob/master/sumo_project/files/imgs/runner_run_ex.PNG)
+```py ./runner.py -run dump -c [PATH_TO_CONFIG1] [PATH_TO_CONFIG2] -save -csv```
 
 This command will run a simulation dump "dump" with the configuration file(s) "config1" and "config2" 
 with CSV data export and logs backup.
 
 From a folder which contains multiple configuration files : 
 
-![](https://github.com/Ahp06/SUMO_Emissions/blob/master/sumo_project/files/imgs/runner_cdir.PNG)
+```py ./runner.py -run dump -c_dir [PATH_TO_CONFIG_DIR] -save -csv```
 
 
