@@ -21,7 +21,30 @@ You can use your own scenario file (osm.sumocfg file), see : [SUMO Tutorials](ht
 
 **With a Shell:**
 
-![](https://github.com/Ahp06/SUMO_Emissions/blob/master/sumo_project/files/imgs/runner_help.PNG)
+```
+usage: runner.py [-h] [-new_dump NEW_DUMP] [-areas AREAS]
+                 [-simulation_dir SIMULATION_DIR] [-run RUN]
+                 [-c config1 [config2 ...]] [-c_dir C_DIR] [-save] [-csv]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -new_dump NEW_DUMP, --new_dump NEW_DUMP
+                        Load and create a new data dump with the configuration
+                        file chosen
+  -areas AREAS, --areas AREAS
+                        Will create a grid with "areas x areas" areas
+  -simulation_dir SIMULATION_DIR, --simulation_dir SIMULATION_DIR
+                        Choose the simulation directory
+  -run RUN, --run RUN   Run a simulation process with the dump chosen
+  -c config1 [config2 ...], --c config1 [config2 ...]
+                        Choose your(s) configuration file(s) from your working
+                        directory
+  -c_dir C_DIR, --c_dir C_DIR
+                        Choose a directory which contains your(s)
+                        configuration file(s)
+  -save, --save         Save the logs into the logs folder
+  -csv, --csv           Export all data emissions into a CSV file
+```
 
 Create a data dump from simulation directory : 
 
@@ -39,5 +62,7 @@ with CSV data export and logs backup.
 From a folder which contains multiple configuration files : 
 
 ```py ./runner.py -run dump -c_dir [PATH_TO_CONFIG_DIR] -save -csv```
+
+Log and csv files will be written in a sub folder of the simulation folder.  
 
 
