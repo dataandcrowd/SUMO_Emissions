@@ -83,6 +83,9 @@ class Data:
         else:
             phase_def = phase_def[0]
     
+    
+        
+    
         return Phase(duration[0], min_duration[0], max_duration[0], phase_def)
     
     def add_data_to_areas(self):

@@ -70,7 +70,7 @@ class RunProcess(multiprocessing.Process):
         conf_name = self.config.config_filename.replace('.json', '')
         log_filename = f'{logdir}/{current_date}.log'
 
-        self.logger = logging.getLogger(f'{self.data.dir}_{conf_name}')
+        self.logger = logging.getLogger(f'sumo_logger')
         self.logger.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
