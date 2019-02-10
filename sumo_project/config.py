@@ -20,11 +20,6 @@ class Config:
     The Config class defines all simulation properties that can be changed
     """
 
-    # Total of emissions of all pollutants in mg for n steps of simulation without acting on areas
-    # These constants are simulation dependant, you must change them according to your simulation 
-    ref200 = Emission(co2=42816869.05436445, co=1128465.0343051048, nox=18389.648337283958, hc=6154.330914019103,
-                      pmx=885.0829265236318)
-
     def __init__(self,config_file, data : Data):
         """
         Default constructor
@@ -92,10 +87,3 @@ class Config:
                 self._SUMOCFG = os.path.join(simdir, f)
         sumo_binary = os.path.join(os.environ['SUMO_HOME'], 'bin', self._SUMOCMD)
         self.sumo_cmd = [sumo_binary, "-c", self._SUMOCFG]
-
-    def get_ref_emissions(self):
-        """
-        :return: Return the sum of all emissions (in mg) from the simulation of reference
-        """
-        if self.n_steps == 200:
-            return self.ref200

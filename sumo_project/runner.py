@@ -147,17 +147,6 @@ class RunProcess(multiprocessing.Process):
             for pollutant in ['co2','co','nox','hc','pmx']:
                 value = total_emissions.__getattribute__(pollutant)
                 self.logger.info(f'{pollutant.upper()} = {value} mg')
-                    
-            if not self.config.without_actions_mode:  # If it's not a simulation without actions
-                ref = self.config.get_ref_emissions()
-                if not (ref is None):  # If a reference value exist (add yours into config.py)
-                    global_diff = (ref.value() - total_emissions.value()) / ref.value()
-                    self.logger.info(f'Global reduction percentage of emissions = {global_diff * 100} %')
-                    
-                    for pollutant in ['co2','co','nox','hc','pmx']:
-                        reduc_percentage = emissions.get_reduction_percentage(ref.__getattribute__(pollutant),
-                                                                              total_emissions.__getattribute__(pollutant))
-                        self.logger.info(f'-> {pollutant.upper()} reduction = {reduc_percentage} %')
                 
             simulation_time = round(time.perf_counter() - start, 2)
             self.logger.info(f'End of the simulation ({simulation_time}s)')
